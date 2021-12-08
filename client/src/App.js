@@ -32,6 +32,12 @@ function App() {
     setRoom(room);
   };
 
+  const userLeave = () => {
+    socketRef.current.emit('disconnect');
+    socketRef.current.disconnect();
+    setState(null);
+  }
+
   const onMessageSubmit = (e) => {
     let msgEle = document.getElementById('message');
     setState({ ...state, [msgEle.name]: msgEle.value });
@@ -78,6 +84,9 @@ function App() {
             </div>
             <button>Send Message</button>
           </form>
+          <form onSubmit={userLeave} className="disconnect">
+            <button>Disconnect</button>
+          </form>
         </div>
       )}
 
@@ -104,7 +113,7 @@ function App() {
             <label>
               Room Name:
               <br/>
-              <input type="text" value="Room 1" id="room_input"/>
+              <input type="text" id="room_input"/>
             </label>
           </div>
           <br />
